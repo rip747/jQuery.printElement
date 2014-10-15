@@ -145,6 +145,7 @@
     function _getMarkup(element, opts) {
         var $element = $(element);
         var elementHtml = _getElementHTMLIncludingFormElements(element);
+        var guid = (Math.round(Math.random() * 99999)).toString();
 
         var html = [];
         html.push('<html><head><title>' + opts.pageTitle + '</title>');
@@ -153,10 +154,10 @@
                 for (var x = 0; x < opts.overrideElementCSS.length; x += 1) {
                     var current = opts.overrideElementCSS[x];
                     if (typeof (current) === 'string') {
-                        html.push('<link type="text/css" rel="stylesheet" href="' + current + '" >');
+                        html.push('<link type="text/css" rel="stylesheet" href="' + current + '?' + guid + '" >');
                     } else {
                         var media = current.media || '';
-                        html.push('<link type="text/css" rel="stylesheet" href="' + current.href + '" media="' + media + '" >');
+                        html.push('<link type="text/css" rel="stylesheet" href="' + current.href + '?' + guid  + '" media="' + media + '" >');
                     }
                 }
             }
@@ -165,7 +166,7 @@
                 return $(this).attr("rel").toLowerCase() === "stylesheet";
             }).each(function () {
                 var media = $(this).attr('media') || '';
-                html.push('<link type="text/css" rel="stylesheet" href="' + $(this).attr("href") + '" media="' + media + '" >');
+                html.push('<link type="text/css" rel="stylesheet" href="' + $(this).attr("href") + '?' + guid + '" media="' + media + '" >');
             });
         }
         //Ensure that relative links work
